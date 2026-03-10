@@ -1838,6 +1838,10 @@ PrefabInstance:
       propertyPath: throwLine
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8358399438769821034, guid: 25b3bd29cf36911428fc29dc2b804833, type: 3}
+      propertyPath: throwForce
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1352327386571720419, guid: 25b3bd29cf36911428fc29dc2b804833, type: 3}
@@ -2593,6 +2597,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 638259266}
     - target: {fileID: 7514537014790302185, guid: 1742c7c7f1866194cb6d03d89f3658d6, type: 3}
+      propertyPath: bridge
+      value: 
+      objectReference: {fileID: 638259266}
+    - target: {fileID: 7514537014790302185, guid: 1742c7c7f1866194cb6d03d89f3658d6, type: 3}
       propertyPath: sceneName
       value: Level2
       objectReference: {fileID: 0}
@@ -2608,6 +2616,10 @@ PrefabInstance:
       propertyPath: blockingCollider
       value: 
       objectReference: {fileID: 1820229474}
+    - target: {fileID: 7514537014790302185, guid: 1742c7c7f1866194cb6d03d89f3658d6, type: 3}
+      propertyPath: directionalTunnels
+      value: 
+      objectReference: {fileID: 354419918}
     - target: {fileID: 8885027435898780964, guid: 1742c7c7f1866194cb6d03d89f3658d6, type: 3}
       propertyPath: m_Name
       value: Door
