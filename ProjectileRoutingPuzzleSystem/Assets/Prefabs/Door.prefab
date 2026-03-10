@@ -75,12 +75,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b2263cb4a35083042a2c8dbaf5de0ae3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 712aef83478302042b7c5ac2a3511634, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.99, y: 5.84}
+  m_Size: {x: 3.4, y: 4.52}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2160add5e1146b242829bd1988eaefef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorLocked: {fileID: 21300000, guid: b2263cb4a35083042a2c8dbaf5de0ae3, type: 3}
-  doorOpen: {fileID: 21300000, guid: 10a66503caf7b9b468b058244f12508b, type: 3}
-  lockedState: 1
+  lockedSprite: {fileID: 0}
+  unlockedSprite: {fileID: 0}
   sceneName: 
+  blockingCollider: {fileID: 0}

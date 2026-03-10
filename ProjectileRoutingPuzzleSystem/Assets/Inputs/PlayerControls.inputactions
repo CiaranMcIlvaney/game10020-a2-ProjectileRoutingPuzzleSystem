@@ -23,15 +23,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "WeaponSwitch",
-                    "type": "Button",
-                    "id": "4eab9ac3-1e50-421b-8c3d-f4f0c4d42ce5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -93,22 +84,11 @@
                 {
                     "name": "",
                     "id": "b21a5636-d0ed-4819-8573-c74f9803f39d",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d76f0779-2aae-4f0c-8f32-c20d8b1ba6d5",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
-                    "action": "WeaponSwitch",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Rock : MonoBehaviour
 {
+    // Reference to the trigger collider used for detecting hits
     Collider triggerCollider;
 
+    // Rigidbody used for physics movement
     Rigidbody weaponRigidbody;
+
     private void Awake()
     {
+        // Find the trigger collider attatched to the rock
         Collider[] colliderComponents = GetComponents<Collider>();
         foreach (Collider collider in colliderComponents)
         {
@@ -20,59 +21,62 @@ public class Rock : MonoBehaviour
             }
         }
 
+        // Get the Rigidbody component
         weaponRigidbody = GetComponent<Rigidbody>();
 
-        // the rock is initially set up as kinematic, so that
-        // when it is in the player's hand, it stays parented and 
-        // does not move with physics
+        // Start as kinematic so the rock stays attached to the player
         weaponRigidbody.isKinematic = true;
     }
 
     private void Start()
     {
-        // the rock is initially disabled. swinging a rock at an
-        // Hittable object does nothing. you might change this design choice
+        // Disable all hitboxes at the start so the rock cannot trigger hits while it is still in the players hand
         EnableHitbox(0);
     }
 
+    // Called when the player throws the rock
     public void Throw(Vector3 direction, float force)
     {
+        // Enable the hitbox so the rock can hit switches or doors
         EnableHitbox(1);
-        
-        // clearing the Rock's parent is important, because otherwise it stays
-        // attached to the Character arm
+
+        // Detach the rock from the players hand
         transform.parent = null;
 
+        // Adjust the height slightly so the rock launches cleanly
         Vector3 position = transform.position;
         transform.position = new Vector3(position.x, 1.5f, position.z);
 
-        // no longer kinematic since we want it to move with its velocity parameters
+        // Enable physics so the rock can move freely
         weaponRigidbody.isKinematic = false;
 
+        // Reset any existing movement
         weaponRigidbody.velocity = Vector3.zero;
         weaponRigidbody.angularVelocity = Vector3.zero;
 
+        // Apply velocity to launch the rock forward
         weaponRigidbody.velocity = direction.normalized * force;
     }
 
+    // Enables or disables the trigger collider used for hitting objects
     public void EnableHitbox(int value)
     {
         triggerCollider.enabled = value == 1 ? true : false;
     }
 
-    // technically this code is repeated for all "Weapon" objects
-    // this can be improved with something called inheritance
-    // both Shovel and Rock could inherit Weapon - but this introduces more complications
-    // with Start(). namely, reflection and overriding virtual functions
+    // Called when the rocks trigger collider touches another object
     private void OnTriggerEnter(Collider other)
     {
+        // Check if the object implements the IHittable interface
         if (other.GetComponent<IHittable>() != null)
         {
+            // Call the hit function on that object
             IHittable toggle = other.GetComponent<IHittable>();
             toggle.Hit(gameObject);
         }
     }
 
+    // Destroy the rock when it collides with something solid
     private void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);

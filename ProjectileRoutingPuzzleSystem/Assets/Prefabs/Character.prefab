@@ -1,78 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &129686623199435334
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 4192177904480511863}
-    m_Modifications:
-    - target: {fileID: 1371579029107236005, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_Name
-      value: Shovel
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.726
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.303
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.16032672
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.6886911
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.6886911
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.16032672
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -26.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
---- !u!4 &1841899934338751577 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1748244862907418143, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-  m_PrefabInstance: {fileID: 129686623199435334}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2494314743394978031 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2544862822043472553, guid: e7bb5c87b7e2d4a42911e3ce949fa818, type: 3}
-  m_PrefabInstance: {fileID: 129686623199435334}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab455100cf49ae948bfeabc13292fb99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1750391975707637458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,9 +103,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2479020134676697509, guid: 31e86048e2bc46942a9ec06bc45105c8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1841899934338751577}
     - targetCorrespondingSourceObject: {fileID: 2479020134676697509, guid: 31e86048e2bc46942a9ec06bc45105c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 583656035039124138}
@@ -296,8 +220,6 @@ MonoBehaviour:
   rockPrefab: {fileID: 3932282969054060940, guid: dc6736401cd972542b1f4e93540dc45c, type: 3}
   moveInput: {fileID: -4216954547961224051, guid: c8d711906fd00b548a67627abc85f162, type: 3}
   attackInput: {fileID: 7926257090387058774, guid: c8d711906fd00b548a67627abc85f162, type: 3}
-  weaponSwitchInput: {fileID: 4665785223893663966, guid: c8d711906fd00b548a67627abc85f162, type: 3}
-  shovel: {fileID: 2494314743394978031}
   rock: {fileID: 229478814693656329}
   armRight: {fileID: 4521325851181315538}
 --- !u!4 &4192177904480511863 stripped

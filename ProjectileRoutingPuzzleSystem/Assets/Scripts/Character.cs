@@ -1,124 +1,124 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
+    // Reference to the CharacterController component used for movement 
     CharacterController controller;
+
+    // Stores the players velocity (for gravity)
     Vector3 velocity;
+    
+    // Reference to the Animator component to control character animations
     Animator animator;
-    Collider shovelCollider;
 
+    // How fast the player moves
     public float moveSpeed = 5.0f;
-    public float gravity = -9.81f;
-    public float throwForce = 1.0f;
 
+    // Gravity strength applied to the player
+    public float gravity = -9.81f;
+
+    // How strong the rock is thrown
+    public float throwForce;
+    
+    // The rock prefab that will be spawned when throwing
     public Rock rockPrefab;
 
+    // Input reference for player movement (WASD)
     public InputActionReference moveInput;
-    public InputActionReference attackInput;
-    public InputActionReference weaponSwitchInput;
-    public Shovel shovel;
 
+    // Input reference for the attack / throw button
+    public InputActionReference attackInput;
+
+    // The rock held by player
     public Rock rock;
-    
+
+    // The players right arm where the rock spawns from
     public GameObject armRight;
 
-    bool shortRangeAttack = true;
+    // Controls whether a new rock should be spawned after throwing
     bool startRockSpawn = false;
+
+    // Timer used to delay spawning the next rock
     float rockTimer = 0.0f;
 
     void Awake()
     {
+        // Get required components attached to the player
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-
-        shovelCollider = shovel.GetComponent<Collider>();
-        shovelCollider.enabled = false;
-
-        shortRangeAttack = true;
     }
 
     private void Start()
     {
-        UpdateWeapon();
+        // Make sure the rock visual is active when the game starts
+        UpdateRockVisual();
     }
 
     private void Update()
     {
+        // Handle player movement every frame
         PlayerMotion();
-
+        
+        // Check if the attack button was pressed this frame
         bool attack = attackInput.action.WasPressedThisFrame();
+
         if (attack)
         {
-            if (shortRangeAttack)
+            // Only throw a rock if the player currently has one
+            if (rock != null)
             {
-                // short range attack always works (no cooldown)
+                ThrowRock();
+
+                // Trigger the attack animation
                 animator.SetTrigger("StartAttack");
             }
-            else
-            {
-                // only throw the rock if it exists
-                if (rock != null)
-                {
-                    ThrowRock();
-                    animator.SetTrigger("StartAttack");
-                }
-            }
         }
 
-        bool weaponSwitch = weaponSwitchInput.action.WasPressedThisFrame();
-        if (weaponSwitch)
+        // If the player has thrown a rock, start the respawn timer
+        if (startRockSpawn)
         {
-            shortRangeAttack = !shortRangeAttack;
-            UpdateWeapon();
+            SpawnRockDelay();
         }
-
-        // rock throwing cooldown code
-        if (startRockSpawn) SpawnRockDelay();
     }
 
     void PlayerMotion()
     {
-        // the following is pretty standard character controller code
-        
-        // snap the player to the ground if already grounded
-        // when jumping, gravity takes over
+        // If the player is grounded keep them slightly stuck to the ground
         if (controller.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
+        // Read movement input from the input system
         Vector2 moveDirection = moveInput.action.ReadValue<Vector2>();
 
+        // Convert input into movement direction in world space
         Vector3 move = Vector3.right * moveDirection.x + Vector3.forward * moveDirection.y;
+
+        // Apply movement speed
         Vector3 moveVelocity = move * moveSpeed;
 
-        // allow gravity to impact y velocity
+        // Apply gravity over time
         velocity.y += gravity * Time.deltaTime;
-
         moveVelocity.y = velocity.y;
-        
-        // finally, Move the character
+
+        // Move the player using the CharacterController
         controller.Move(moveVelocity * Time.deltaTime);
 
-
-        // rotate the character using Quaternion LookRotation()
-        // slerp = Spherical Linear Interpolation. smoothly interpolates between Quaternion rotations
+        // Ignore vertical movement when calculating rotation
         Vector3 horizontalVelocity = new Vector3(moveVelocity.x, 0f, moveVelocity.z);
+
+        // If the player is moving rotate them in the direction they are walking
         if (horizontalVelocity.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(horizontalVelocity);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                15f * Time.deltaTime
-            );
+
+            // Smoothly rotate toward the movement direction
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 15f * Time.deltaTime);
         }
 
-        // set the speed for the animator to change idle/walk states
+        // Update the animation speed parameter 
         animator.SetFloat("Speed", horizontalVelocity.magnitude);
     }
 
@@ -126,72 +126,44 @@ public class Character : MonoBehaviour
     {
         if (rock != null)
         {
-            Vector3 point1 = rock.transform.position;
-            point1.y = 0f;
-            Vector3 point2 = GetMouseHitPoint();
-            point2.y = 0f;
+            // The rock will be thrown forward in the direction the player is facing
+            Vector3 direction = transform.forward;
 
-            Vector3 direction = (point2 - point1).normalized;
-            
+            // Tell the rock to launch itself
             rock.Throw(direction, throwForce);
+
+            // The player no longer has a rock after throwing
             rock = null;
+
+            // Start the timer to spawn a new rock
             startRockSpawn = true;
         }
     }
 
-    // standard screen raycast code - gets a world space position based on mouse click
-    Vector3 GetMouseHitPoint()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            return hit.point;
-        }
-        return Vector3.zero;
-    }
-
     void SpawnRockDelay()
     {
+        // Increase the timer every frame
         rockTimer += Time.deltaTime;
+
+        // Wait half a second before giving the player another rock
         if (rockTimer >= 0.5f)
         {
             rockTimer = 0.0f;
             startRockSpawn = false;
+
+            // Spawn a new rock and attach it to the players arm
             rock = Instantiate(rockPrefab, armRight.transform);
 
-            // this fixes a timing issue where rock is spawned after 
-            // weapon is switched
-            if (shortRangeAttack) rock.gameObject.SetActive(false);
+            rock.gameObject.SetActive(true);
         }
     }
 
-    void UpdateWeapon()
+    void UpdateRockVisual()
     {
-        shovel.gameObject.SetActive(shortRangeAttack);
-        
-        // we need to check if rock is not null in case we have already thrown in
-        // and it hasn't respawned yet
-        if (rock != null) rock.gameObject.SetActive(!shortRangeAttack);
-        
-        if (shortRangeAttack)
+        // Make sure the rock is visible when the player has one
+        if (rock != null)
         {
-            // disable hitbox initially in case animation player did not do it for us
-            // (animation didn't finish)
-            shovel.EnableHitbox(0);
-        }
-        else
-        {
-            if (rock != null) rock.EnableHitbox(0);
-        }
-    }
-
-    // this method is called from the animation player
-    public void EnableHitbox(int value)
-    {
-        // only the shovel should be enabled from the swinging animation
-        if (shortRangeAttack)
-        {
-            shovel.EnableHitbox(value);
+            rock.gameObject.SetActive(true);
         }
     }
 }
